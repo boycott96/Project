@@ -123,6 +123,8 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void move() {
+
+		autoMove();
 		for (int z = dots; z > 0; z--) {
 			x[z] = x[(z - 1)];
 			y[z] = y[(z - 1)];
@@ -169,7 +171,6 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void locateApple() {
-
 		int r = (int) (Math.random() * RAND_POS);
 		apple_x = ((r * DOT_SIZE));
 
@@ -186,6 +187,89 @@ public class Board extends JPanel implements ActionListener {
 			move();
 		}
 		repaint();
+	}
+
+	private void autoMove() {
+		if (y[0] == apple_y) {
+			if ((x[0] < apple_x) && (!leftDirection)) {
+				rightDirection = true;
+				upDirection = false;
+				downDirection = false;
+			} else if ((x[0] > apple_x) && (!rightDirection)) {
+				leftDirection = true;
+				upDirection = false;
+				downDirection = false;
+			} else{
+				downDirection = true;
+				upDirection = false;
+				leftDirection = false;
+				rightDirection = false;
+			}
+		} else if (x[0] == apple_x) {
+			if ((y[0] < apple_y) && (!upDirection)) {
+				downDirection = true;
+				leftDirection = false;
+				rightDirection = false;
+			} else if ((y[0] > apple_y) && (!downDirection)) {
+				upDirection = true;
+				leftDirection = false;
+				rightDirection = false;
+			} else{
+				upDirection = true;
+				leftDirection = false;
+				rightDirection = false;
+				downDirection = false;
+			}
+		} else if (y[0] < apple_y && x[0] < apple_x) {
+			if (upDirection) {
+				rightDirection = true;
+				leftDirection = false;
+				downDirection = false;
+				upDirection = false;
+			} else {
+				downDirection = true;
+				leftDirection = false;
+				upDirection = false;
+				rightDirection = false;
+			}
+		} else if (x[0] > apple_x && y[0] > apple_y) {
+			if (downDirection) {
+				leftDirection = true;
+				rightDirection = false;
+				downDirection = false;
+				upDirection = false;
+			} else {
+				upDirection = true;
+				leftDirection = false;
+				rightDirection = false;
+				downDirection = false;
+			}
+		} else if (y[0] < apple_y && x[0] > apple_x) {
+			if (upDirection) {
+				leftDirection = true;
+				rightDirection = false;
+				upDirection = false;
+				downDirection = false;
+			} else {
+				downDirection = true;
+				rightDirection = false;
+				leftDirection = false;
+				upDirection = false;
+			}
+		} else if (x[0] < apple_x && y[0] > apple_y) {
+			if (downDirection) {
+				rightDirection = true;
+				leftDirection = false;
+				downDirection = false;
+				upDirection = false;
+			} else {
+				upDirection = true;
+				rightDirection = false;
+				leftDirection = false;
+				downDirection = false;
+			}
+		}
+
 	}
 
 	private class TAdapter extends KeyAdapter {
